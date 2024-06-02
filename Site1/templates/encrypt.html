@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypt File</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f7fa;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            color: #333;
+        }
+        .hi {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navbar {
+            background-color: #2c3e50;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar a:hover {
+            background-color: #34495e;
+            border-radius: 5px;
+            color: #ffffff;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            background: url('https://puresourcecode.com/wp-content/uploads/2020/08/ssl-encryption-wallpaper1.jpg') no-repeat center center/cover;
+            position: relative;
+        }
+
+        .form-wrapper {
+            background: rgba(44, 62, 80, 0.85);
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .form-wrapper h1 {
+            color: #ecf0f1;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .form-wrapper label {
+            color: #ecf0f1;
+            font-size: 1.2em;
+            display: block;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .form-wrapper input[type="text"],
+        .form-wrapper input[type="file"] {
+            width: calc(100% - 30px);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .form-wrapper button {
+            font-size: 1em;
+            background-color: #e74c3c;
+            border: none;
+            color: #ffffff;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .form-wrapper button:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        .form-wrapper p {
+            margin-top: 20px;
+            font-size: 1em;
+            color: #ecf0f1;
+        }
+
+        .form-wrapper a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .form-wrapper a:hover {
+            color: #2980b9;
+        }
+
+        
+        /* Footer Styles */
+        footer {
+            background: #222;
+            color: #fff;
+            padding: 40px 0;
+        }
+
+        footer .quick-links, footer .contact-info, footer .social-media, footer .newsletter {
+            margin-bottom: 20px;
+        }
+
+        footer .quick-links a, footer .social-media a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 5px;
+        }
+
+        footer .newsletter form {
+            display: flex;
+        }
+
+        footer .newsletter input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+
+        footer .newsletter button {
+            padding: 10px;
+            border: none;
+            background: #007bff;
+            color: #fff;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        footer .disclaimer {
+            font-size: 14px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+    </style>
+    <script>
+        function validateForm() {
+            const keyInput = document.getElementById("key");
+            if (keyInput.value.length !== 16) {
+                alert("The key must be exactly 16 characters long.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <a href="/">Nguyễn Quốc Phú</a>
+        </div>
+        <div class="nav-links">
+            <a href="/home/">Home</a>
+            <a href="/encrypt/">Encrypt</a>
+            <a href="/decrypt/">Decrypt</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h1>Encrypt File</h1>
+            <form action="/encrypt/" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                {% csrf_token %}
+                <input type="hidden" name="encrypt" value="true">
+                <label for="key">Enter Key (16 characters):</label>
+                <input type="text" id="key" name="key" required pattern=".{16,16}" title="The key must be exactly 16 characters long">
+                <label for="file">Choose file to encrypt:</label>
+                <input type="file" id="file" name="file" aria-label="File to encrypt" required>
+                <button type="submit">Submit</button>
+            </form>
+            <p>Back to <a href="/home/">HOME</a></p>
+        </div>
+    </div>
+
+    <footer>
+    <div class="hi">
+        <div class="quick-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Help Center</a>
+        </div>
+        <div class="contact-info">
+            <p>Email: support@cryptocipher.com</p>
+            <p>Phone: +123 456 7890</p>
+        </div>
+        <div class="social-media">
+            <a href="https://www.facebook.com/Phu22122004/">Facebook</a>
+            <a href="https://www.instagram.com/_guofu24_/">Instagram</a>
+            <a href="https://www.tiktok.com/@phujiyong">Tiktok</a>
+        </div>
+        <div class="newsletter">
+            <p>Stay updated with the latest news and updates from CryptoCipher.</p>
+            <form>
+                <input type="email" placeholder="Your email">
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+        <p class="disclaimer">&copy; 2024 Your Company. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+
+</html>

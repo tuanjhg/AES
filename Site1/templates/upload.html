@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Key</title>
+    <script>
+        function validateForm() {
+            const keyInput = document.getElementById("key");
+            if (keyInput.value.length !== 16) {
+                alert("The key must be exactly 16 characters long.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+
+<body>
+    <form action="/encrypt/" method="post" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <label for="key">Enter Key (16 characters):</label>
+        <input type="text" id="key" name="key" required pattern=".{16,16}" title="The key must be exactly 16 characters long"><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+
+</html>
