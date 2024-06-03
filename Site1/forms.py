@@ -1,7 +1,10 @@
 from django import forms
-from .models import UploadedFile
+from .models import Stuff
 
-class UploadFileForm(forms.ModelForm):
+class StuffForm(forms.ModelForm):
     class Meta:
-        model = UploadedFile
-        fields = ('file',)
+        model = Stuff
+        fields = ['profile_image', 'firstname', 'lastname', 'dob', 'phone', 'address']
+        widgets = {
+            'dob': forms.DateInput(attrs={'type': 'date'}),
+        }

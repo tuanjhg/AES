@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encrypt File</title>
+    <title>Decrypt File</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
+
         body {
             margin: 0;
             font-family: 'Source Sans Pro', sans-serif;
@@ -16,13 +17,13 @@
             height: 100vh;
             color: #333;
         }
-        
+
         .hi {
             width: 80%;
             margin: 0 auto;
             padding: 20px;
         }
-        
+
         .navbar {
             background-color: #2c3e50;
             padding: 10px 20px;
@@ -31,7 +32,7 @@
             align-items: center;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .navbar a {
             color: #ecf0f1;
             text-decoration: none;
@@ -39,24 +40,24 @@
             font-weight: 600;
             transition: background-color 0.3s, color 0.3s;
         }
-        
+
         .navbar a:hover {
             background-color: #34495e;
             border-radius: 5px;
             color: #ffffff;
         }
-        
+
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-grow: 1;
-            background: url('https://puresourcecode.com/wp-content/uploads/2020/08/ssl-encryption-wallpaper1.jpg') no-repeat center center/cover;
+            background: url('https://wallpaperbat.com/img/421811-tokenization-vs-encryption-things-you-need-to-know-to-make-your.jpg') no-repeat center center/cover;
             position: relative;
-            padding-bottom: 150px;
-            padding: 150px 0;
+            padding-bottom: 120px;
+            padding: 120px 0;
         }
-        
+
         .form-wrapper {
             background: rgba(44, 62, 80, 0.85);
             padding: 40px 30px;
@@ -65,14 +66,25 @@
             width: 90%;
             max-width: 500px;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
-        
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
         .form-wrapper h1 {
             color: #ecf0f1;
             margin-bottom: 20px;
             font-size: 2em;
         }
-        
+
         .form-wrapper label {
             color: #ecf0f1;
             font-size: 1.2em;
@@ -80,9 +92,10 @@
             margin-bottom: 10px;
             text-align: left;
         }
-        
+
         .form-wrapper input[type="text"],
-        .form-wrapper input[type="file"] {
+        .form-wrapper input[type="file"],
+        .form-wrapper select {
             width: calc(100% - 30px);
             padding: 15px;
             margin-bottom: 20px;
@@ -92,10 +105,10 @@
             background-color: #fff;
             color: #333;
         }
-        
+
         .form-wrapper button {
             font-size: 1em;
-            background-color: #e74c3c;
+            background-color: #007bff;
             border: none;
             color: #ffffff;
             padding: 15px 30px;
@@ -104,42 +117,48 @@
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
-        
+
         .form-wrapper button:hover {
-            background-color: #c0392b;
+            background-color: #0056b3;
             transform: scale(1.05);
         }
-        
+
         .form-wrapper p {
             margin-top: 20px;
             font-size: 1em;
             color: #ecf0f1;
         }
-        
+
         .form-wrapper a {
             color: #3498db;
             text-decoration: none;
             transition: color 0.3s;
         }
-        
+
         .form-wrapper a:hover {
             color: #2980b9;
         }
-        /* Footer Styles */
-        
+
         footer {
             background: #222;
             color: #fff;
             padding: 40px 0;
         }
-        
+
+        footer .hi {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         footer .quick-links,
         footer .contact-info,
         footer .social-media,
         footer .newsletter {
             margin-bottom: 20px;
+            text-align: center;
         }
-        
+
         footer .quick-links a,
         footer .social-media a {
             display: block;
@@ -147,17 +166,18 @@
             text-decoration: none;
             margin-bottom: 5px;
         }
-        
+
         footer .newsletter form {
             display: flex;
+            justify-content: center;
         }
-        
+
         footer .newsletter input {
             padding: 10px;
             border: none;
             border-radius: 5px 0 0 5px;
         }
-        
+
         footer .newsletter button {
             padding: 10px;
             border: none;
@@ -166,23 +186,13 @@
             border-radius: 0 5px 5px 0;
             cursor: pointer;
         }
-        
+
         footer .disclaimer {
             font-size: 14px;
             text-align: center;
             margin-top: 20px;
         }
     </style>
-    <script>
-        function validateForm() {
-            const keyInput = document.getElementById("key");
-            if (keyInput.value.length !== 16) {
-                alert("The key must be exactly 16 characters long.");
-                return false;
-            }
-            return true;
-        }
-    </script>
 </head>
 
 <body>
@@ -201,15 +211,24 @@
 
     <div class="container">
         <div class="form-wrapper">
-            <h1>Encrypt File</h1>
-            <form action="/encrypt/" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <h1>Decrypt File</h1>
+            <form action="/decrypt/" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="hidden" name="encrypt" value="true">
-                <label for="key">Enter Key (16 characters):</label>
-                <input type="text" id="key" name="key" required pattern=".{16,16}" title="The key must be exactly 16 characters long">
-                <label for="file">Choose file to encrypt:</label>
-                <input type="file" id="file" name="file" aria-label="File to encrypt" required>
-                <button type="submit">Submit</button>
+                <label for="file">Choose file to decrypt:</label>
+                <input type="file" name="file" id="file" aria-label="File to decrypt" required><br>
+                <label for="key">Enter decryption key:</label>
+                <input type="text" name="key" id="key" required><br>
+                <label for="new_filename">Enter new file name (without extension):</label>
+                <input type="text" name="new_filename" id="new_filename" required><br>
+                <label for="file_type">Choose file type:</label>
+                <select id="file_type" name="file_type">
+                    <option value="txt">TXT</option>
+                    <option value="docx">DOCX</option>
+                    <option value="pdf">PDF</option>
+                    <option value="excel">Excel</option>
+                    <option value="image">Image</option>
+                </select><br>
+                <button type="submit" name="decrypt">Decrypt</button>
             </form>
             <p>Back to <a href="/home/">HOME</a></p>
         </div>
@@ -224,7 +243,7 @@
             </div>
             <div class="contact-info">
                 <p>Email: guofu2004@gmail.com</p>
-                <p>Phone: +84 966 572 874/p>
+                <p>Phone: +84 966 572 874</p>
             </div>
             <div class="social-media">
                 <a href="https://www.facebook.com/Phu22122004/">Facebook</a>

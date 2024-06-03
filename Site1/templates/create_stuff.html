@@ -1,23 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encrypt File</title>
+    <title>{% block title %}Create Stuff{% endblock %}</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
         body {
+            font-family: Arial, sans-serif;
             margin: 0;
-            font-family: 'Source Sans Pro', sans-serif;
-            background-color: #f5f7fa;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+            padding: 0;
             color: #333;
+            background: url('https://wallpaperaccess.com/full/1393206.jpg') no-repeat center center/cover;
+
         }
         
-        .hi {
+        .container {
             width: 80%;
             margin: 0 auto;
             padding: 20px;
@@ -29,7 +27,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
         .navbar a {
@@ -37,33 +34,20 @@
             text-decoration: none;
             padding: 10px 20px;
             font-weight: 600;
-            transition: background-color 0.3s, color 0.3s;
         }
         
         .navbar a:hover {
             background-color: #34495e;
             border-radius: 5px;
-            color: #ffffff;
-        }
-        
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-grow: 1;
-            background: url('https://puresourcecode.com/wp-content/uploads/2020/08/ssl-encryption-wallpaper1.jpg') no-repeat center center/cover;
-            position: relative;
-            padding-bottom: 150px;
-            padding: 150px 0;
         }
         
         .form-wrapper {
             background: rgba(44, 62, 80, 0.85);
-            padding: 40px 30px;
+            padding: 20px 15px; /* Thu nhỏ khoảng cách */
             border-radius: 15px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 500px;
+            max-width: 400px; /* Thu nhỏ độ rộng của form */
+            margin: 100px auto; /* Căn giữa form */
             text-align: center;
         }
         
@@ -89,6 +73,17 @@
             border-radius: 5px;
             border: 1px solid #ccc;
             font-size: 1em;
+            background-color: #fff;
+            color: #333;
+        }
+        
+        .form-wrapper input[type="date"] { /* Làm to trường nhập DOB */
+            padding: 15px;
+            font-size: 1.2em;
+            width: calc(100% - 30px);
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
             background-color: #fff;
             color: #333;
         }
@@ -131,6 +126,7 @@
             background: #222;
             color: #fff;
             padding: 40px 0;
+            text-align: center;
         }
         
         footer .quick-links,
@@ -173,18 +169,7 @@
             margin-top: 20px;
         }
     </style>
-    <script>
-        function validateForm() {
-            const keyInput = document.getElementById("key");
-            if (keyInput.value.length !== 16) {
-                alert("The key must be exactly 16 characters long.");
-                return false;
-            }
-            return true;
-        }
-    </script>
 </head>
-
 <body>
     <div class="navbar">
         <div class="logo">
@@ -198,25 +183,18 @@
             <a href="/stuff_list/">Stuff</a>
         </div>
     </div>
-
     <div class="container">
         <div class="form-wrapper">
-            <h1>Encrypt File</h1>
-            <form action="/encrypt/" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <h1>Create Stuff</h1>
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="hidden" name="encrypt" value="true">
-                <label for="key">Enter Key (16 characters):</label>
-                <input type="text" id="key" name="key" required pattern=".{16,16}" title="The key must be exactly 16 characters long">
-                <label for="file">Choose file to encrypt:</label>
-                <input type="file" id="file" name="file" aria-label="File to encrypt" required>
-                <button type="submit">Submit</button>
+                {{ form.as_p }}
+                <button type="submit">Save</button>
             </form>
-            <p>Back to <a href="/home/">HOME</a></p>
         </div>
     </div>
-
     <footer>
-        <div class="hi">
+        <div class="container">
             <div class="quick-links">
                 <a href="#">Privacy Policy</a>
                 <a href="#">Terms of Service</a>
@@ -238,9 +216,9 @@
                     <button type="submit">Subscribe</button>
                 </form>
             </div>
-            <p class="disclaimer">&copy; 2024 Your Company. All rights reserved.</p>
+            <p class="disclaimer">© 2024 Your Company. All rights reserved.</p>
         </div>
-    </footer>
-</body>
-
-</html>
+        </footer>
+        
+        </body>
+        </html>

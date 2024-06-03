@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stuff List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap');
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background-color: #2c3e50;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: 600;
+        }
+        
+        .navbar a:hover {
+            background-color: #34495e;
+            border-radius: 5px;
+        }
+        
+        .hero {
+            background: url('https://wallpapercave.com/wp/wp9497766.jpg') no-repeat center center/cover;
+            color: #ffffff;
+            padding: 150px 20px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            background-color: #34495e;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+        
+        .hero a {
+            text-decoration: none;
+            background-color: #e74c3c;
+            color: #ffffff;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+        
+        .hero a:hover {
+            background-color: #c0392b;
+        }
+        
+        .content {
+            padding: 40px 20px;
+            text-align: center;
+            background: url('') no-repeat center center/cover;
+        }
+        
+        .content h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .content p {
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 20px 0;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
+        
+        .footer p {
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            .hero p {
+                font-size: 1em;
+            }
+        }
+        /* Footer Styles */
+        
+        footer {
+            background: #222;
+            color: #fff;
+            padding: 40px 0;
+        }
+        
+        footer .quick-links,
+        footer .contact-info,
+        footer .social-media,
+        footer .newsletter {
+            margin-bottom: 20px;
+        }
+        
+        footer .quick-links a,
+        footer .social-media a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 5px;
+        }
+        
+        footer .newsletter form {
+            display: flex;
+        }
+        
+        footer .newsletter input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+        
+        footer .newsletter button {
+            padding: 10px;
+            border: none;
+            background: #007bff;
+            color: #fff;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        
+        footer .disclaimer {
+            font-size: 14px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Password Styles */
+        .password-container {
+            position: relative;
+            display: inline-block;
+        }
+        .password-container input[type="password"] {
+            padding-right: 30px;
+        }
+        .password-container .toggle-password {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            background-image: url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/icons/eye-slash-fill.svg');
+            background-size: cover;
+        }
+        .password-container .toggle-password.hide-password {
+            background-image: url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/icons/eye-fill.svg');
+        }
+    </style>
+
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <a href="/">Nguyễn Quốc Phú</a>
+        </div>
+        <div class="nav-links">
+            <a href="/home/">Home</a>
+            <a href="/encrypt/">Encrypt</a>
+            <a href="/decrypt/">Decrypt</a>
+            <a href="/create_stuff/">Create</a>
+            <a href="/stuff_list/">Stuff</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1 class="text-center">Stuff List</h1>
+        <div class="row">
+            {% for item in stuff %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ item.profile_image.url }}" alt="{{ item.firstname }}'s profile image" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.firstname }} {{ item.lastname }}</h5>
+                        <p class="card-text">Date of Birth: {{ item.dob }}</p>
+                        <p class="card-text">Phone: {{ item.phone }}</p>
+                        <p class="card-text">Address: {{ item.address }}</p>
+                        <form action="{% url 'encrypt_all_data' %}" method="post">
+                            {% csrf_token %}
+                            <label for="key{{ forloop.counter }}">Encryption Key (16 characters):</label>
+                            <div class="password-container">
+                                <input type="password" id="key{{ forloop.counter }}" name="key" required pattern=".{16,16}" title="The key must be exactly 16 characters long">
+                                <span class="toggle-password" onclick="togglePassword(this)"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Encrypt data</button>
+                        </form>
+                        <form action="{% url 'delete_stuff' item.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary mt-3">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <form action="{% url 'encrypt_all_data' %}" method="post">
+            {% csrf_token %}
+            <div class="password-container">
+                <label for="key">Encryption Key (16 characters):</label>
+                <input type="password" id="key" name="key" required pattern=".{16,16}" title="The key must be exactly 16 characters long">
+                <span class="toggle-password" onclick="togglePassword(this)"></span>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary mt-3">Encrypt All Data</button>
+                        </form>
+                        <a href="/create_stuff/" class="btn btn-primary mt-3">Create new</a>
+                        <a href="/home/" class="btn btn-primary mt-3">Home</a>
+                        <a href="/display/" class="btn btn-primary mt-3">Display</a>
+                        </div>
+                        <footer>
+                        <div class="container">
+                            <div class="quick-links">
+                                <a href="#">Privacy Policy</a>
+                                <a href="#">Terms of Service</a>
+                                <a href="#">Help Center</a>
+                            </div>
+                            <div class="contact-info">
+                                <p>Email: guofu2004@gmail.com</p>
+                                <p>Phone: +84 966 572 874</p>
+                            </div>
+                            <div class="social-media">
+                                <a href="https://www.facebook.com/Phu22122004/">Facebook</a>
+                                <a href="https://www.instagram.com/_guofu24_/">Instagram</a>
+                                <a href="https://www.tiktok.com/@phujiyong">Tiktok</a>
+                            </div>
+                            <div class="newsletter">
+                                <p>Stay updated with the latest news and updates from CryptoCipher.</p>
+                                <form>
+                                    <input type="email" placeholder="Your email">
+                                    <button type="submit">Subscribe</button>
+                                </form>
+                            </div>
+                            <p class="disclaimer">© 2024 Your Company. All rights reserved.</p>
+                        </div>
+                        </footer>
+                        <script>
+                        function togglePassword(element) {
+                            var keyInput = element.previousElementSibling;
+                            if (keyInput.type === "password") {
+                                keyInput.type = "text";
+                                element.classList.add("hide-password");
+                            } else {
+                                keyInput.type = "password";
+                                element.classList.remove("hide-password");
+                            }
+                        }
+                        </script>
+                        </body>
+                        </html>
+                        

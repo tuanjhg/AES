@@ -18,6 +18,12 @@
             color: #333;
         }
 
+        .hi {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         .navbar {
             background-color: #2c3e50;
             padding: 10px 20px;
@@ -48,6 +54,8 @@
             flex-grow: 1;
             background: url('https://wallpaperbat.com/img/421811-tokenization-vs-encryption-things-you-need-to-know-to-make-your.jpg') no-repeat center center/cover;
             position: relative;
+            padding-bottom: 120px;
+            padding: 120px 0;
         }
 
         .form-wrapper {
@@ -86,7 +94,8 @@
         }
 
         .form-wrapper input[type="text"],
-        .form-wrapper input[type="file"] {
+        .form-wrapper input[type="file"],
+        .form-wrapper select {
             width: calc(100% - 30px);
             padding: 15px;
             margin-bottom: 20px;
@@ -130,12 +139,58 @@
             color: #2980b9;
         }
 
-        .footer {
-            background-color: #2c3e50;
-            color: #ecf0f1;
+        footer {
+            background: #222;
+            color: #fff;
+            padding: 40px 0;
+        }
+
+        footer .hi {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        footer .quick-links,
+        footer .contact-info,
+        footer .social-media,
+        footer .newsletter {
+            margin-bottom: 20px;
             text-align: center;
-            padding: 10px 0;
-            font-size: 0.9em;
+        }
+
+        footer .quick-links a,
+        footer .social-media a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 5px;
+        }
+
+        footer .newsletter form {
+            display: flex;
+            justify-content: center;
+        }
+
+        footer .newsletter input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+
+        footer .newsletter button {
+            padding: 10px;
+            border: none;
+            background: #007bff;
+            color: #fff;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        footer .disclaimer {
+            font-size: 14px;
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -149,6 +204,8 @@
             <a href="/home/">Home</a>
             <a href="/encrypt/">Encrypt</a>
             <a href="/decrypt/">Decrypt</a>
+            <a href="/create_stuff/">Create</a>
+            <a href="/stuff_list/">Stuff</a>
         </div>
     </div>
 
@@ -169,9 +226,32 @@
         </div>
     </div>
 
-    <div class="footer">
-        <p>&copy; 2024 Your Company. All rights reserved.</p>
-    </div>
+    <footer>
+        <div class="hi">
+            <div class="quick-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Help Center</a>
+            </div>
+            <div class="contact-info">
+                <p>Email: guofu2004@gmail.com</p>
+                <p>Phone: +84 966 572 874</p>
+            </div>
+            <div class="social-media">
+                <a href="https://www.facebook.com/Phu22122004/">Facebook</a>
+                <a href="https://www.instagram.com/_guofu24_/">Instagram</a>
+                <a href="https://www.tiktok.com/@phujiyong">Tiktok</a>
+            </div>
+            <div class="newsletter">
+                <p>Stay updated with the latest news and updates from CryptoCipher.</p>
+                <form>
+                    <input type="email" placeholder="Your email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+            <p class="disclaimer">&copy; 2024 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 
 </html>

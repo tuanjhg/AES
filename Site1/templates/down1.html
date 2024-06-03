@@ -21,32 +21,26 @@
         }
 
         /* Header Styles */
-        header {
-            background: #222;
-            color: #fff;
-            padding: 20px 0;
+        .navbar {
+            background-color: #2c3e50;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        header .logo {
-            display: inline-block;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        header nav ul {
-            list-style: none;
-            float: right;
-        }
-
-        header nav ul li {
-            display: inline-block;
-            margin-left: 20px;
-        }
-
-        header nav ul li a {
-            color: #fff;
+        
+        .navbar a {
+            color: #ecf0f1;
             text-decoration: none;
+            padding: 10px 20px;
+            font-weight: 600;
         }
+        
+        .navbar a:hover {
+            background-color: #34495e;
+            border-radius: 5px;
+        }
+        
 
         /* Hero Section Styles */
         .hero {
@@ -143,15 +137,17 @@
 <body>
     <!-- Header Section -->
     <header>
-        <div class="container">
-            <div class="logo">CryptoCipher</div>
-            <nav>
-                <ul>
-                    <li><a href="/home/">Home</a></li>
-                    <li><a href="/encrypt/">Encrypt</a></li>
-                    <li><a href="/encrypt/">Decrypt</a></li>
-                </ul>
-            </nav>
+        <div class="navbar">
+            <div class="logo">
+                <a href="/">Nguyễn Quốc Phú</a>
+            </div>
+            <div class="nav-links">
+                <a href="/home/">Home</a>
+                <a href="/encrypt/">Encrypt</a>
+                <a href="/decrypt/">Decrypt</a>
+                <a href="/create_stuff/">Create</a>
+                <a href="/stuff_list/">Stuff</a>
+            </div>
         </div>
     </header>
 
