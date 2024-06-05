@@ -4,8 +4,8 @@ from Crypto.Cipher import AES
 from django.conf import settings
 import os
 
-def home(request):
-    return render(request, 'home.html')
+def home:
+    return render('home.html')
 
 def get_key(request):
     if request.method == "POST":
