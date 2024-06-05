@@ -102,7 +102,7 @@ def encryptData(request):
 #     # Trả về một trang thông báo nếu không có dữ liệu nào đã được mã hóa
 #     with open(encryptData(request), 'rb')
 
-def decryptData(file_path, key, new_filename):
+def decryptData(file_path, key, new_filename, file_type):
     with open(file_path, 'rb') as file:
         nonce = file.read(16)
         tag = file.read(16)
@@ -111,28 +111,46 @@ def decryptData(file_path, key, new_filename):
     plaintext = cipher.decrypt_and_verify(ciphertext, tag)
     
     data = json.loads(plaintext.decode('utf-8'))
+    
+    # Chuyển đổi và lưu file dưới định dạng mong muốn
+    if file_type == 'txt':
+        new_filename += '.txt'
+        new_file_path = os.path.join(settings.MEDIA_ROOT, new_filename)
+        with open(new_file_path, 'w') as file:
+            for item in data:
+                file.write(json.dumps(item, default=json_serial) + '\n')
 
-    # Tạo tệp DOCX và chèn dữ liệu
-    new_filename += '.docx'
-    new_file_path = os.path.join(settings.MEDIA_ROOT, new_filename)
-    doc = Document()
-
-    for item in data:
-        if 'image' in item:  # Assuming 'image' is the key for image data in base64 format
-            image_data = base64.b64decode(item['image'])
-            image = Image.open(BytesIO(image_data))
-            image_path = os.path.join(settings.MEDIA_ROOT, 'temp_image.png')
-            image.save(image_path)
-
-            # Chèn hình ảnh vào tệp DOCX
-            doc.add_picture(image_path, width=Document.DEFAULT_WIDTH/2)
-            os.remove(image_path)  # Xóa ảnh sau khi chèn vào tệp DOCX
-
-        for key, value in item.items():
-            if key != 'image':  # Don't include the image data as text
+    elif file_type == 'docx':
+        new_filename += '.docx'
+        new_file_path = os.path.join(settings.MEDIA_ROOT, new_filename)
+        doc = Document()
+        for item in data:
+            for key, value in item.items():
                 doc.add_paragraph(f"{key}: {value}")
+        doc.save(new_file_path)
 
-    doc.save(new_file_path)
+    elif file_type == 'pdf':
+        new_filename += '.pdf'
+        new_file_path = os.path.join(settings.MEDIA_ROOT, new_filename)
+        c = canvas.Canvas(new_file_path)
+        text = c.beginText(40, 800)
+        for item in data:
+            for key, value in item.items():
+                text.textLine(f"{key}: {value}")
+        c.drawText(text)
+        c.save()
+
+    elif file_type == 'excel':
+        new_filename += '.xlsx'
+        new_file_path = os.path.join(settings.MEDIA_ROOT, new_filename)
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        headers = data[0].keys()
+        ws.append(headers)
+        for item in data:
+            ws.append(item.values())
+        wb.save(new_file_path)
+
     return new_file_path
 
 
@@ -185,10 +203,13 @@ def decrypt_file1(request):
         if isinstance(key, HttpResponseBadRequest):
             return key
         new_filename = request.POST.get('new_filename')
-        decrypted_file_path = decryptData(file_path, key, new_filename)
+        file_type = request.POST.get('file_type')
+        decrypted_file_path = decryptData(file_path, key, new_filename, file_type)
         context = {'file_path': decrypted_file_path}
         return render(request, 'down1.html', context)
     return render(request, 'decrypt1.html')
+
+
 
 def delete_stuff(request, stuff_id):
     stuff = get_object_or_404(Stuff, pk=stuff_id)

@@ -212,25 +212,27 @@
     <div class="container">
         <div class="form-wrapper">
             <h1>Decrypt File</h1>
-            <form action="/decrypt/" method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <label for="file">Choose file to decrypt:</label>
-                <input type="file" name="file" id="file" aria-label="File to decrypt" required><br>
-                <label for="key">Enter decryption key:</label>
-                <input type="text" name="key" id="key" required><br>
-                <label for="new_filename">Enter new file name (without extension):</label>
-                <input type="text" name="new_filename" id="new_filename" required><br>
+                <label for="file">Upload encrypted file:</label>
+                <input type="file" name="file" id="file" required>
+                
+                <label for="key">Encryption Key:</label>
+                <input type="text" name="key" id="key" required maxlength="16">
+                
+                <label for="new_filename">New File Name (without extension):</label>
+                <input type="text" name="new_filename" id="new_filename" required>
+                
                 <label for="file_type">Choose file type:</label>
-                <select id="file_type" name="file_type">
+                <select name="file_type" id="file_type" required>
                     <option value="txt">TXT</option>
                     <option value="docx">DOCX</option>
                     <option value="pdf">PDF</option>
                     <option value="excel">Excel</option>
-                    <option value="image">Image</option>
-                </select><br>
+                </select>
+                
                 <button type="submit" name="decrypt">Decrypt</button>
             </form>
-            <p>Back to <a href="/home/">HOME</a></p>
         </div>
     </div>
 
